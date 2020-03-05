@@ -1,0 +1,503 @@
+﻿body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, aside, blockquote, th, td, span, i, b, img {
+    margin: 0;
+    padding: 0;
+    font-family: 'PingFang-SC-Medium';
+}
+
+a, label, input, select, textarea, button {
+    font-weight: normal;
+    border: 0;
+    text-decoration: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent
+}
+
+em, i {
+    font-style: normal;
+}
+
+img, button {
+    border: 0;
+    outline: none
+}
+
+textarea {
+    resize: none;
+    border: none;
+}
+
+input {
+    -webkit-appearance: none;
+    font-family: PingFang SC,Helvetica Neue,Hiragino Sans GB,Helvetica,Microsoft YaHei,Arial;
+    background: transparent;
+}
+
+ul li {
+    list-style: none
+}
+
+html, body {
+    font-family: PingFang SC,Helvetica Neue,Hiragino Sans GB,Helvetica,Microsoft YaHei,Arial;
+    background: #F7F7F7;
+    font-size: 0.75rem;
+    min-width: 320px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+    -ms-tap-highlight-color: rgba(0, 0, 0, 0);
+    -o-tap-highlight-color: rgba(0, 0, 0, 0);
+    tap-highlight-color: rgba(0, 0, 0, 0);
+}
+/**toast**/
+.promptBox .box {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.promptBox .content {
+    font-size: 0;
+    padding: 0 .2rem;
+    text-align: center;
+}
+
+    .promptBox .content span {
+        display: inline-block;
+        font-family: PingFangSC-Regular;
+        font-size: .32rem;
+        line-height: .4rem;
+        letter-spacing: 0;
+        padding: .2rem;
+        border-radius: .1rem;
+        background: rgba(0,0,0,.4);
+        color: #FFF;
+    }
+
+.hide {
+    display: none !important;
+}
+
+.overflow {
+    overflow-y: hidden;
+}
+
+.content {
+    padding-top: .4rem;
+    padding-left: .22rem;
+    padding-right: .22rem;
+    padding-bottom: 1.3rem;
+    background-size: 100% 100%;
+}
+
+.sms-result {
+    height: 3rem;
+    padding-top: 0.5rem;
+    margin: 0 auto;
+    position: relative;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+    .sms-result img {
+        height: 84px;
+        width: 84px;
+        margin: 0 auto;
+        text-align: center;
+        display: block;
+    }
+
+    .sms-result .result-info {
+        color: #333333;
+        font-size: 0.25rem;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 0.2rem;
+    }
+
+    .sms-result .payamount {
+        color: #333333;
+        font-weight: bold;
+        font-size: 0.5rem;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 0.2rem;
+    }
+
+    .sms-result .sms-info {
+        padding-top: 0.5rem;
+        margin: 0 auto;
+        position: relative;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    }
+
+        .sms-result .sms-info .title {
+            float: left;
+            color: #999999;
+            font-size: 0.25rem;
+        }
+
+        .sms-result .sms-info .value {
+            color: #333333;
+            font-size: 0.25rem;
+            float: right;
+            padding-left: 0.2rem;
+            padding-right: 0.2rem;
+        }
+
+.charge-info {
+    height: .38rem;
+    font-size: .34rem;
+    color: #000000;
+    margin-bottom: .4rem;
+}
+
+.sms-package {
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+    .sms-package .item {
+        width: 2.16rem;
+        height: 3.4rem;
+        margin: .2rem 0 .2rem 0;
+        vertical-align: top;
+        overflow: hidden;
+        position: relative;
+        background-color: #f4f4f4;
+        border-radius: 15px 10px 10px 10px;
+        border: solid 1px #e4e3e3;
+        flex-shrink: 0;
+    }
+
+        .sms-package .item.active {
+            background-color: #ececff;
+            border-radius: 15px 10px 10px 10px;
+            border: solid 1px #47499a;
+        }
+
+    .sms-package .days {
+        background-image: linear-gradient(-90deg, #6d6d6d 0%, #393939 100%), linear-gradient( #7c7c7c, #7c7c7c);
+        font-family: PingFang-SC-Medium;
+        font-size: .2rem;
+        font-weight: normal;
+        font-stretch: normal;
+        border-radius: 0px 0px 15px 0px;
+        height: .38rem;
+        width: 1.64rem;
+        letter-spacing: 0px;
+        color: #fae397;
+        text-align: left;
+        padding: 0.10rem 0 0 .10rem;
+    }
+
+    .sms-package .item.active .days {
+        background-image: linear-gradient(-90deg, #0d0d0d 0%, #313131 100%), linear-gradient( #1b1b1b, #1b1b1b);
+    }
+
+    .sms-package .count {
+        font-family: PingFang-SC-Bold;
+        font-size: .34rem;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #555555;
+        text-align: center;
+        margin-top: .3rem;
+    }
+
+    .sms-package .item .price {
+        font-family: PingFang-SC-Bold;
+        font-size: .32rem;
+        font-weight: normal;
+        letter-spacing: 0px;
+        color: #555555;
+        text-align: center;
+        margin-top: .15rem;
+    }
+
+    .sms-package .item.active .count,
+    .sms-package .item.active .price {
+        color: #000000;
+    }
+
+    .sms-package .item .buy-price {
+        font-family: PingFang-SC-Medium;
+        font-size: .2rem;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        text-align: center;
+        color: #929292;
+        margin-top: .15rem;
+    }
+
+    .sms-package .item .old-price {
+        font-family: PingFang-SC-Medium;
+        font-size: .2rem;
+        text-decoration: line-through;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        text-align: center;
+        color: #929292;
+    }
+
+    .sms-package .item .promotion-price {
+        width: 1.5rem;
+        background-color: #e1e1e1;
+        border-radius: 0.18rem;
+        font-family: PingFang-SC-Medium;
+        font-size: 0.2rem;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #555555;
+        text-align: center;
+        vertical-align: middle;
+        margin: 0 auto;
+        margin-top: .3rem;
+    }
+
+    .sms-package .item.active .promotion-price {
+        background-color: #d8d8ff;
+        color: #47499a;
+    }
+
+.charge-info .to {
+    float: left;
+    font-weight: bold
+}
+
+.charge-info .shopper {
+    float: right;
+    font-weight: bold
+}
+
+.custom {
+    font-size: .3rem;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    font-weight: bold;
+    color: #000000;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+    .custom .hide {
+        display: none;
+    }
+
+    .custom .check-box .checkbox {
+        margin-top: .05rem;
+        background-image: url(../images/check_mark.png);
+        background-size: 100% 100%;
+        position: absolute;
+        width: .31rem;
+        height: .31rem;
+    }
+
+    .custom .check-box p {
+        font-size: .24rem;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #999999;
+        margin-left: .45rem;
+    }
+
+    .custom .check-box .agree {
+        margin-left: .45rem;
+        font-size: .3rem;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #999999;
+    }
+
+    .custom .check-box .agree-info {
+        font-size: .3rem;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #4749a0;
+    }
+
+    .custom .check-box.checked .checkbox {
+        background-image: url(../images/checked_mark.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+        position: absolute;
+        width: .31rem;
+        height: .31rem;
+    }
+
+    .custom .check-box .checkbox.checked {
+        background-image: url(../images/checked_mark.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        background-size: 100% 100%;
+        width: .31rem;
+        height: .31rem;
+    }
+
+    .custom .check-box span {
+        margin-left: .45rem;
+    }
+
+    .custom .input {
+        margin-top: .4rem;
+        border-bottom: solid 1px #e7e7e7;
+        padding-bottom: .2rem;
+    }
+
+        .custom .input i {
+            font-size: .3rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: #000000;
+            margin-left: .45rem;
+        }
+
+    .custom .input-count {
+        font-size: .3rem;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #000000;
+        margin-left: .45rem;
+    }
+
+    .custom .total-price {
+        font-size: .32rem;
+        font-weight: bold;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #000000;
+        margin-left: .45rem;
+        margin-top: .4rem;
+    }
+
+        .custom .total-price .price {
+            font-size: .24rem;
+            font-weight: normal;
+            letter-spacing: 0px;
+            color: #999999;
+            margin-left: .1rem;
+        }
+
+.footer {
+    padding-left: .2rem;
+    padding-right: .2rem;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: .1rem;
+    z-index: 9999;
+}
+
+    .footer .btn {
+        height: .88rem;
+        line-height: .88rem;
+        font-size: .34rem;
+        background-color: #47499a;
+        border-radius: .49rem;
+        color: #ffffff;
+        text-align: center;
+        letter-spacing: .02rem;
+    }
+
+.select {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 100%;
+    bottom: .01rem;
+    z-index: 9999;
+}
+
+    .select .pay-info {
+        position: fixed;
+        height: 6.18rem;
+        background-color: #ffffff;
+        width: 100%;
+        bottom: .01rem;
+        border-bottom: solid 1px #e4e3e3;
+    }
+
+    .select .shade {
+        width: 100%;
+        height: 100%;
+        background-color: #000000;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .select .pay-info .title {
+        line-height: 40px;
+        padding-top: .2rem;
+    }
+
+        .select .pay-info .title .cancel {
+            margin-left: .36rem;
+            font-size: .32rem;
+            letter-spacing: 0px;
+            color: #1a1a1a;
+            float: left;
+            position: fixed;
+        }
+
+        .select .pay-info .title .select-title {
+            font-family: PingFang-SC;
+            font-weight: bold;
+            font-size: .34rem;
+            letter-spacing: 0px;
+            color: #000000;
+            text-align: center;
+        }
+
+.pay-select {
+    line-height: .5rem;
+    height: .5rem;
+    margin-top:.8rem;
+}
+
+    .pay-select .logo {
+        background-image: url('img/支付宝.png');
+        height: .5rem;
+        width: .5rem;
+        background-size: 100% 100%;
+        display: inline;
+        float: left;
+        margin-left: .5rem;
+    }
+
+    .pay-select .payname {
+        font-size: .28rem;
+        font-weight: bold;
+        color: #000000;
+        vertical-align: middle;
+        display: inline;
+        float: left;
+        margin-left: .5rem;
+    }
+
+    .pay-select .pay-check {
+        background-image: url('img/椭圆2拷贝2.png');
+        height: .5rem;
+        width: .5rem;
+        background-size: 100% 100%;
+        float: right;
+        display: inline;
+        margin-right: .5rem;
+    }
+.select .pay-info .custom{
+    margin-left:.5rem;
+}

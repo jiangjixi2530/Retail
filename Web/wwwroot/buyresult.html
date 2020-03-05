@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>银盒子短信订购服务</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1, minimum-scale=1,user-scalable=no">
+    <link href="smsBuy.css" rel="stylesheet" />
+    <script>document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 100 + 'px';</script>
+
+</head>
+<body>
+    <div class="content">
+        <div>
+            <input type="hidden" id="payStatus" name="payStatus" value="${payStatus?if_exists}" />
+            <div class="sms-result">
+                <#if payStatus?? && payStatus =="1">
+                    <img src="${basePath}/smsBuy/img/success.png" />
+                    <p class="result-info">订购成功</p>
+                    <#else>
+                        <img src="${basePath}/smsBuy/img/fail.png" />
+                        <p class="result-info">订购失败，请重新选择支付</p>
+                </#if>
+                <p class="payamount">￥${originalPrice}</p>
+                <div class="sms-info">
+                    <i class="title">服务名称</i>
+                    <i class="value">银盒子短信服务</i>
+                </div>
+                <div class="sms-info">
+                    <i class="title">订购短信数量</i>
+                    <i class="value">${buyCount}条</i>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

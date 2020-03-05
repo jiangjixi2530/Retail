@@ -1,0 +1,513 @@
+/*鍏叡*/
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,aside,blockquote,th,td,span,i,b,img{margin: 0;padding: 0;font-family: 'PingFang-SC-Medium';}
+a,label,input,select,textarea,button{font-weight:normal; border:0;text-decoration: none;outline: none;-webkit-tap-highlight-color:transparent}
+em,i{font-style:normal;}
+img,button{border:0;outline: none}
+textarea{resize:none;border: none;}
+input{-webkit-appearance: none;  font-family: PingFang SC,Helvetica Neue,Hiragino Sans GB,Helvetica,Microsoft YaHei,Arial;background: transparent;}
+ul li{list-style: none}
+html, body{
+	font-family: PingFang SC,Helvetica Neue,Hiragino Sans GB,Helvetica,Microsoft YaHei,Arial;
+	background: #F7F7F7;
+	font-size: 0.75rem;
+	min-width:320px;
+	-webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+	-moz-tap-highlight-color:rgba(0, 0, 0, 0);
+	-ms-tap-highlight-color:rgba(0, 0, 0, 0);
+	-o-tap-highlight-color:rgba(0, 0, 0, 0);
+	tap-highlight-color:rgba(0, 0, 0, 0);
+}
+.hide{display:none !important;}
+.overflow{overflow-y:hidden;}
+/****杈规绾� 0.5px****/
+.lineTop{
+	position:relative;
+	line-height: 1;
+}
+.lineTop::after{
+	content: '';
+	display: block;
+	width: 200%;
+	height: 1px;
+	background: #DCDCDC;
+	position: absolute;
+	left: -50%;
+	top: 0px;
+	-webkit-transform: scale(0.5);
+	-moz-transform: scale(0.5);
+	-o-transform: scale(0.5);
+	transform: scale(0.5);
+}
+/**toast**/
+.promptBox .box{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+.promptBox .content{
+	font-size: 0;
+	padding: 0 .2rem;
+	text-align: center;
+}
+.promptBox .content span{
+	display: inline-block;
+	font-family: PingFangSC-Regular;
+	font-size: .32rem;
+	line-height: .4rem;
+	letter-spacing: 0;
+	padding: .2rem;
+	border-radius: .1rem;
+	background: rgba(0,0,0,.4);
+	color: #FFF;
+}
+
+/****page****/
+.index,
+.buy-now {
+	height: 1.13rem;    
+	padding-left: .15rem;
+    padding-right: .15rem;
+	background-size: 100% 100%;
+	font-size: 0;
+}
+.index  .user,
+.buy-now  .user{
+	display: inline-block;
+	width: 1.13rem;
+	height: 1.13rem;
+	margin-right: .21rem;
+	vertical-align: middle;
+}
+.index  .info,
+.buy-now .info{
+	margin-top:.2rem;
+	padding:.1rem 0 .1rem .2rem;
+	background-color: #FFFFFF;
+	vertical-align: middle;
+}
+.index .info .shop-name,
+.buy-now .info .shop-name{
+	font-size: .34rem;
+	height: .34rem;
+	line-height: .34rem;
+	margin-bottom: .2rem;
+	overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.index .info .version-type,
+.buy-now .info .version-type{
+	font-size: .28rem;
+	height: .28rem;
+	line-height: .28rem;
+	opacity: 0.82;
+	overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.index .content{
+	padding: .5rem .4rem 0;
+}
+.index .content .tab{
+	background-color: #FFFFFF;
+	box-shadow: 0rem .04rem .07rem 0rem rgba(0, 0, 0, 0.06);
+	border-radius: .35rem;
+	padding-top: .5rem;
+}
+.index .tab .tab-btn{
+	font-size: 0;
+	width: 4.73rem;
+	height: .7rem;
+	background-color: #f6f6f6;
+	border-radius: .35rem;
+	margin: auto;
+	overflow: hidden;
+}
+.index .tab-btn span{
+	display: inline-block;
+	width: 50%;
+	font-size: .3rem;
+	color: #0A96FF;
+	line-height: .7rem;
+	text-align: center;
+}
+.index .tab-btn span.active{
+	color: #FFFFFF;
+	background: #21A0FF;
+}
+.index .tab .tab-content{
+	padding: .45rem .4rem .35rem;
+}
+.index .tab-content p{
+	font-size: .28rem;
+	line-height: .38rem;
+	color: #888888;
+	text-align: justify;
+	text-justify: inter-ideograph;
+}
+.index .tab-content .site-num{
+	font-size: 0;
+	margin-top: .53rem;
+	padding-top: .38rem;
+}
+.index .site-num .label{
+  display: inline-block;
+  font-size: .32rem;
+  margin-right: .3rem;
+}
+.index .site-num .site-input {
+    display: inline-block;
+    font-size: .32rem;
+    color: #0A96FF;
+    width: 4.6rem;
+}
+.index .footer,
+.buy-now .footer,
+.pay-type .footer{
+	padding-left:.2rem;
+	padding-right:.2rem;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: .76rem;
+	z-index: 9999;
+}
+/*
+.index .footer{
+	margin-top: 100px;
+}
+.buy-now .footer .btn{
+	margin-top: 6rem;
+}
+*/
+
+.index .footer .btn,
+.buy-now .footer .btn,
+.pay-type .footer .btn{
+	height: .88rem;
+	line-height: .88rem;
+	font-size: .34rem;
+	background-color: #0A96FF;
+	border-radius: .2rem;
+	color: #ffffff;
+	text-align: center;
+	letter-spacing: .02rem;
+}
+.buy-now .content .buy-time{
+	background-color: #ffffff;
+	box-shadow: 0rem .04rem .07rem 0rem rgba(0, 0, 0, 0.06);
+	padding: 0 0 0 .23rem;
+}
+.buy-now .buy-time .choose{
+	font-size: .3rem;
+	line-height: .3rem;
+	color: #333333;
+}
+.buy-now .choose i{
+	color: #0A96FF;
+}
+.buy-now .item{
+	display: inline-block;
+	width: 2.09rem;
+	height: 1.2rem;
+	padding-top: .4rem;
+	margin-right: .23rem;
+	margin-top:.23rem;
+	vertical-align: top;
+	overflow: hidden;
+    position: relative;
+	background: url(../../smsBuy/img/item_bg.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+.buy-now .buy-time .buy-result{
+	height: 3rem;
+	padding-top: 0.5rem;
+	margin:0 auto;
+    position: relative;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+.buy-now .buy-time .buy-result .payResult{
+	color:#333333;
+	font-size: 0.25rem;
+	margin:0 auto;
+	text-align: center;
+	padding-top:0.2rem;
+}
+.buy-now .buy-time .buy-result .payAmount{
+	color:#333333;
+	font-weight:bold;
+	font-size: 0.5rem;
+	margin:0 auto;
+	text-align: center;
+	padding-top:0.2rem;
+}
+.buy-now .buy-time .buy-result .payServiceTitle{
+	float:left;
+	color:#999999;
+	font-size: 0.25rem;
+}
+.buy-now .buy-time .buy-result .payServiceValue{
+	float:left;
+	color:#333333;
+	font-size: 0.25rem;
+	float: right;
+	padding-left: 0.2rem;
+	padding-right: 0.2rem;
+}
+.buy-now .buy-time .buy-result img{
+	height:84px;
+	width:84px;
+	src: ../../smsBuy/img/fail.png;
+	margin:0 auto;
+	text-align: center;
+	display: block;
+}
+.buy-now .payInfo{
+	display:block;
+	height:0.7rem;
+	font-size:.3rem;
+	margin-top:.2rem;
+	margin-right: .2rem;
+}
+.buy-now .payInfo .title{
+	height:.45rem;
+	padding-left:.12rem;
+	padding-right:.12rem;
+	padding-bottom:.2rem;
+}
+.buy-now .item .select{
+	display: none;
+    width: .4rem;
+    height: .4rem;
+    position: absolute;
+    top: .1rem;
+    right: .1rem;
+}
+.buy-now .item.active{
+	background: url(../../smsBuy/img/item_select.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+.buy-now  .item.active .select{
+	display: block;
+}
+.buy-now  .item.active .count-custom,
+.buy-now  .item.active .count,
+.buy-now  .item.active .price{
+	color: #0A96FF;
+}
+.buy-now  .item:last-child{
+	margin-right: 0;
+}
+.buy-now .item .count{
+	font-size: .32rem;
+	line-height: .26rem;
+	margin-bottom: .2rem;
+	text-align: center;
+}
+.buy-now .item .count-custom{
+	font-size: .32rem;
+	padding-top:.1rem;
+	margin-bottom: .2rem;
+	text-align: center;
+}
+.buy-now .item .price{
+	font-size: .25rem;
+	line-height: .25rem;
+	text-align: center;
+}
+.buy-now .item .count-custom,
+.buy-now .item .count,
+.buy-now .item .price{
+	color: #0A96FF;
+}
+.buy-now .item .price-num{
+	font-size: .25rem;
+}
+
+.pay-type {
+	padding: 0 .3rem;
+	height: 1.1rem;
+	line-height: 1.1rem;
+	font-size: 0;
+	background: #FFFFFF;
+	box-shadow: 0rem .03rem .06rem 0rem #E0E0E0;
+}
+.pay-type .left{
+	display: inline-block;
+	width: 1.6rem;
+	font-size: .28rem;
+	color: #333333;
+	vertical-align: top;
+}
+.pay-type .right{
+	display: inline-block;
+	width: 5.3rem;
+	height: 1.1rem;
+	line-height: 1.1rem;
+	font-size: .28rem;
+	color: #FE471D;
+	text-align: right;
+}
+.pay-type .right i{
+	font-size: .4rem;
+}
+.pay-type .content{
+	padding: 0 .3rem;
+	margin-top: .2rem;
+	background: #FFFFFF;
+	box-shadow: 0rem .03rem .06rem 0rem #E0E0E0;
+}
+.pay-type .content .item{
+	font-size: 0;
+	height: 1.2rem;
+	line-height: 1.2rem;
+}
+.pay-type .item .left{
+	display: inline-block;
+	font-size: .28rem;
+	color: #666666;
+}
+.pay-type .item.lineTop .left{
+	font-size: 0;
+}
+.pay-type .left .user{
+	display: inline-block;
+	width: 1.13rem;
+	height: 1.13rem;
+	margin-right: .21rem;
+	vertical-align: middle;
+}
+.pay-type .left .user{
+	display: inline-block;
+	width: .64rem;
+	height: .64rem;
+	margin-right: .2rem;
+	vertical-align: middle;
+}
+.pay-type .left .info{
+	display: inline-block;
+	vertical-align: middle;
+}
+.pay-type .info .pay-name{
+	font-size: .28rem;
+	height: .28rem;
+	line-height: .28rem;
+	margin-bottom: .12rem;
+	color: #333333;
+}
+.pay-type .info .tip{
+	font-size: .24rem;
+	height: .24rem;
+	line-height: .24rem;
+	color: #999999;
+}
+.pay-type .item .right{
+	display: inline-block;
+	float: right;
+}
+.pay-type .right .checkbox{
+	display: block;
+	width: .4rem;
+	height: .4rem;
+	margin-top: .4rem;
+	background: url(../img/checkbox.png);
+	background-size: 100% 100%;
+}
+.pay-type .right .checkbox.active{
+	background: url(../img/checkbox-active.png);
+	background-size: 100% 100%;
+}
+
+.activation {
+	height: 3.83rem;
+	padding: .7rem .3rem 0;
+	text-align: center;
+	background-image: linear-gradient(120deg, #00b9f9 0%, #1698f5 100%);
+}
+.activation  img{
+	display: block;
+	width: .94rem;
+	height: 1.16rem;
+	margin: 0 auto .25rem;
+}
+.activation  .type{
+	font-size: .34rem;
+	line-height: .34rem;
+	color: #FFFFFF;
+	margin-bottom: .2rem;
+}
+.activation  .version{
+	font-size: .28rem;
+	line-height: .28rem;
+	color: #FFFFFF;
+	opacity: 0.67;
+}
+.activation .content{
+	background-color: #FFFFFF;
+	margin-top: -.9rem;
+}
+.activation .content .data-info{
+	padding: .6rem .45rem .3rem;
+}
+.activation .data-info .item{
+	font-size: 0;
+	line-height: .28rem;
+	margin-bottom: .2rem;
+}
+.activation .data-info .item:last-child{
+	margin-bottom: 0;
+}
+.activation .item .left{
+	display: inline-block;
+	width: 1.4rem;
+	font-size: .28rem;
+	color: #999999;
+	margin-right: .1rem;
+  vertical-align: top;
+}
+.activation .item .right{
+	display: inline-block;
+	font-size: .28rem;
+	color: #333333;
+}
+.activation .item .right.serial-num{
+	color: #21A0FF;
+	width: 5.1rem;
+}
+.activation .content .data-tip{
+	font-size: .24rem;
+	height: .75rem;
+	line-height: .75rem;
+	color: #666666;
+	padding: 0 .45rem;
+}
+.activation .footer{
+	width: 100%;
+	height: 1.5rem;
+	padding: .5rem 0 0;
+	background-size: 100% 100%;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+.activation .footer .about{
+	padding: 0 .3rem;
+    font-size: .4rem;
+    line-height: .5rem;
+    color: #FFFFFF;
+    text-align: center;
+}
+.activation .footer .introduce{
+	padding: 0 .3rem;
+    font-size: .35rem;
+    line-height: .4rem;
+    color: #FFFFFF;
+    margin-top: .2rem;
+    text-align: center;
+}

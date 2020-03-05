@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>银盒子短信订购服务</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1, minimum-scale=1,user-scalable=no">
+    <link href="smsBuyStyle.css" rel="stylesheet" />
+    <script>document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 100 + 'px';</script>
+
+</head>
+<body>
+	<div class="buy-now" id="content_two">
+		<input type="hidden" id="payStatus" name="payStatus" value="${payStatus?if_exists}" />
+		<div class="content">
+			<div class="buy-time" id="buy">	
+			<div class="buy-result"  id="custom">
+                <#if payStatus?? && payStatus= ="1">
+                    <img src="img/success.png" />
+                    <p class="payResult">订购成功</p>
+                    <#else>
+                        <img src="img/fail.png" />
+                        <p class="payResult">订购失败，请重新选择支付</p>
+</#if>
+						<p class="payAmount">￥${originalPrice}</p>
+					</div>
+					<div class="buy-result" style="height:1.2rem;">
+					<div class="title" style="height:0.6rem;">
+					<i class="payServiceTitle">服务名称</i>
+					<i class="payServiceValue">银盒子短信服务</i>
+					</div>	
+					<div class="title" style="height:0.6rem;">
+					<i class="payServiceTitle">订购短信数量</i>
+					<i class="payServiceValue">${buyCount}条</i>
+					</div>	
+			</div></div>
+		</div>
+	</div>
+	<script type="text/javascript" src="${basePath}/assets/js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="${basePath}/assets/js/base.js?v=16.11.25.4"></script>
+	<script type="text/javascript" src="${basePath}/assets/js/fastclick.js"></script>
+</body>
+<script type="text/javascript">
+
+</script>
+</html>

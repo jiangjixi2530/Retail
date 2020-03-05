@@ -1,0 +1,309 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>银盒子短信订购服务</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1, minimum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="${basePath}/assets/css/smsBuyStyle.css" />
+    <script>document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 100 + 'px';</script>
+
+</head>
+<body>
+    <div class="content">
+        <input type="hidden" id="shopperId" name="shopperId" value="${shopperId}" />
+        <input type="hidden" id="payModel" name="payModel" value="${payModel}" />
+        <input type="hidden" id="userId" name="userId" value="${userId}" />
+        <div>
+            <div class="charge-info">
+                <p class="to">充值到</p>
+                <p class="shopper">${shopperName}</p>
+            </div>
+            <div class="sms-package" id="package">
+            </div>
+            <div class="custom">
+                <div class="check-box" id="checkbox">
+                    <i class="checkbox"><input type="checkbox" /></i><span>自定义购买短信条数</span>
+                    <p>如没有合适的套餐，您可以自定义需要购买的数量</p>
+                </div>
+                <div class="input hide" id="inputcount"><i>短信数量</i><input id="smsCount" type="number" class="input-count" oninput="value=value.replace(/^(0+)|[^\d]+/g,'')" onkeyup="computeAmout(this)" placeholder="请输入所需短信数量" /></div>
+                <div class="total-price hide" id="custom"><i id="customtotalprice">价格：￥0.00</i><i class="price" id="customprice">(0.00元/条)</i></div>
+            </div>
+            <div class="custom" id="customAgree">
+                <div class="check-box">
+                    <i class="checkbox" id="agree" ontouchend="agreeNote(this)"><input type="checkbox" /></i><i class="agree" ontouchend="agreeNote(this)">阅读并同意</i><i class="agree-info" ontouchend="showNote(this)">短信购买协议</i>
+                </div>
+            </div>
+            <div id="pay">
+            </div>
+        </div>
+        <div class="footer">
+            <div class="btn" id="buy">订购并支付</div>
+        </div>
+        <div id="select" class="select hide">
+            <div class="shade hide"></div>
+            <div class="pay-info hide">
+                <div class="title"><p class="cancel" id="cancel">取消</p><p class="select-title">请选择支付方式</p></div>
+                <div class="pay-select" data-type="4" ontouchend="selectPay(this)">
+                    <i class="logo" style="background-image:url(${basePath}/smsBuy/img/aliPay.png)"></i>
+                    <i class="payname">支付宝支付</i>
+                    <i class="pay-check"><input type="checkbox" /></i>
+                </div>
+                <div class="pay-select" data-type="5" ontouchend="selectPay(this)">
+                    <i class="logo" style="background-image:url(${basePath}/smsBuy/img/wxPay.png)"></i>
+                    <i class="payname">微信支付</i>
+                    <i class="pay-check"><input type="checkbox" /></i>
+                </div>
+                <div class="custom">
+                    <div class="check-box">
+                        <i class="checkbox" id="select-agree" ontouchend="agreeNote(this)"><input type="checkbox" /></i><i class="agree" ontouchend="agreeNote(this)">阅读并同意</i><i class="agree-info" ontouchend="showNote(this)">短信购买协议</i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="btn" id="buy-pay">确定500元</div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="${basePath}/assets/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${basePath}/assets/js/base.js?v=16.11.25.4"></script>
+    <script type="text/javascript" src="${basePath}/assets/js/fastclick.js"></script>
+    <script type="text/javascript">
+        function setupWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+            if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+            window.WVJBCallbacks = [callback];
+            var WVJBIframe = document.createElement('iframe');
+            WVJBIframe.style.display = 'none';
+            WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+            document.documentElement.appendChild(WVJBIframe);
+            setTimeout(function () { document.documentElement.removeChild(WVJBIframe) }, 0)
+        }
+        var isiOS = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        //ios终端
+        if (isiOS) {
+            setupWebViewJavascriptBridge(function (bridge) {
+                bridge.registerHandler('testJSFunction', function (data, responseCallback) {
+                    responseCallback('js执行过了:' + data);
+                })
+            })
+        }
+        var maxCount = 0;
+        window.onload = function () {
+            path = "http://jiangjixi2530.oicp.net:56419/SweepPay_BuySMS/";
+            var serviceAdd = eval('${serviceAdd}');
+            var divObj = "";
+            var selected = " active";
+            $.each(serviceAdd, function (index, n) {
+                if (index > 0) {
+                    selected = "";
+                    if (maxCount < serviceAdd[index].expend_max)
+                        maxCount = serviceAdd[index].expend_max;
+                } else {
+                    maxCount = serviceAdd[index].expend_max;
+                }
+                divObj += "<div class='item " + selected + "'data-count='" + serviceAdd[index].msg_num + "' data-amount='" + serviceAdd[index].pay_amount + "'><p class='days'>预估可用" + serviceAdd[index].predict_days + "天</p>"
+                    + "<p class='count'>" + serviceAdd[index].msg_num + "条</p>"
+                    + "<p class='price'>&yen;" + serviceAdd[index].pay_amount + "</p>"
+                    + "<p class='buy-price'>(" + serviceAdd[index].expend_blance + "/条）</p>"
+                    + "<p class='old-price'>￥" + serviceAdd[index].original_price + "</p>";
+                if (serviceAdd[index].saving_price > 0) {
+                    divObj += "<p class='promotion-price'>立省" + serviceAdd[index].saving_price + "元</p>";
+                }
+                divObj += "</div>";
+            })
+            var div = document.getElementById('package');
+            div.innerHTML = divObj + div.innerHTML;
+            var payModel = $("#payModel").val();
+            if (payModel > 3) {
+                $("#customAgree").addClass("hide");
+            }
+            $("#package .item").on('touchend', function () {
+                $("#package .item").removeClass('active');
+                $(this).addClass('active');
+                if ($("#custom").hasClass("hide") == false) {
+                    $("#checkbox").toggleClass("checked");
+                    $("#inputcount").toggleClass("hide");
+                    $("#custom").toggleClass("hide");
+                }
+            })
+            $("#checkbox").on('touchend', function () {
+                $(this).toggleClass("checked");
+                $("#inputcount").toggleClass("hide");
+                $("#custom").toggleClass("hide");
+                $("#package .item").removeClass('active');
+                document.getElementById('smsCount').value = "";
+                $("#custom").attr("data-amount", 0);
+                $("#custom").attr("data-count", 0);
+                window.scrollTo(0, document.documentElement.clientHeight);
+            })
+            $("#cancel").on('click', function () {
+                $("#buy").toggleClass('hide');
+                $("#select").toggleClass('hide');
+                $("#select .shade").toggleClass('hide');
+                $("#select .pay-info").toggleClass('hide');
+            })
+            $("#buy").on('click', function () {
+                var payModel = $("#payModel").val();
+                if (payModel == 4) {
+                    $("#buy").toggleClass('hide');
+                    $("#select").toggleClass('hide');
+                    $("#select .shade").toggleClass('hide');
+                    $("#select .pay-info").toggleClass('hide');
+                    return;
+                }
+                comfirmBuy(payModel);
+            })
+            $("#buy-pay").on('click', function () {
+                var payModel = $("#select .pay-select.active").data('type');
+                comfirmBuy(payModel);
+            })
+        }
+        function agreeNote(obj) {
+            $("#agree").toggleClass("checked");
+            $("#select-agree").toggleClass("checked");
+        }
+        function showNote(obj) {
+            window.open(' http://b2b.blibao.com/AppService/smsH5/goSmsH5.htm', 'newwindow', 'height=100,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+        }
+        function selectPay(obj) {
+            $("#select .pay-select").removeClass('active');
+            $(obj).addClass('active');
+        }
+        function computeAmout(obj) {
+            var price = 0.0;
+            var count = obj.value;
+            var minPrice = 0.0;
+            if (count <= 0) {
+                toast('请输入大于0的数量');
+                $("#custom").attr("data-amount", 0);
+                $("#custom").attr("data-count", 0);
+                return;
+            }
+            if (count > maxCount) {
+                toast('最大允许输入数量：' + maxCount);
+                obj.value = maxCount;
+                count = maxCount;
+            }
+            var serviceAdd = eval('${serviceAdd}');
+            minPrice = serviceAdd[0].expend_blance;
+            $.each(serviceAdd, function (index, n) {
+                if (serviceAdd[index].expend_blance < minPrice) {
+                    minPrice = serviceAdd[index].expend_blance;
+                }
+                if (serviceAdd[index].expend_max >= count && serviceAdd[index].expend_min <= count) {
+                    price = serviceAdd[index].expend_blance;
+                }
+            })
+            if (price == 0.0) {
+                price = minPrice;
+            }
+            document.getElementById('customtotalprice').innerHTML = "价格：￥" + (price * count).toFixed(2);
+            document.getElementById('customprice').innerHTML = "(" + price + "元/条)";
+            $("#custom").attr("data-amount", (price * count).toFixed(2));
+            $("#custom").attr("data-count", count);
+        }
+        /**
+         * toast
+         */
+        function toast(msg, time) {
+            if (time == '' || time == undefined || time == 0) {
+                time = 3000
+            }
+            var htmlText = '<div id="disBox" class="promptBox" style="position: fixed;z-index: 9999;"><div class="box"><div class="content"><span>' + msg + '</span></div></div></div>'
+            var top = ((document.documentElement.clientHeight - (document.documentElement.clientWidth / 750 * 100 * 0.8)) / 2).toFixed(2)
+            $("body").append(htmlText);
+            $("#disBox .content").css('margin-top', top + 'px');
+            setTimeout(function () {
+                $("body #disBox").remove();
+            }, time);
+        }
+        /**
+         * APP内调起摄像头
+         * @param {Object} orderNum
+         */
+        function scanUserAlipayCode(orderNum, originalPrice, buyCount) {
+            var paraObject = {};
+            paraObject['orderNum'] = orderNum;
+            paraObject['originalPrice'] = originalPrice;
+            paraObject['buyCount'] = buyCount;
+            paraObject['notifyUrl'] = path + "smsH5Pay/appPayNotify.htm";
+            var json = JSON.stringify(paraObject);
+            if (!isiOS) {
+                //android调起扫码
+                window.location.href = 'blibao://startPay?methodparams=' + json;  //android拦截url打开扫码
+            } else {
+                //ios调起扫码
+                if (window.WebViewJavascriptBridge) {
+                    WebViewJavascriptBridge.callHandler('startPay', json);
+                }
+            }
+        }
+        function payResult(originalPrice, buyCount, payStatus) {
+            var url = path + 'smsH5Pay/payResult.htm?originalPrice=' + originalPrice + '&buyCount=' + buyCount + '&payStatus=' + payStatus;
+            window.location.href = url;
+        }
+        function comfirmBuy(payModel) {
+            if (!$("#agree").hasClass('checked')) {
+                window.scrollTo(0, document.documentElement.clientHeight);
+                toast('请同意购买协议', 1000);
+                return;
+            }
+            var originalPrice = 0.00;
+            var buyCount = 0;
+            if ($("#custom").hasClass("hide")) {
+                originalPrice = $("#package .item.active").data('amount');
+                buyCount = $("#package .item.active").data('count');
+            }
+            else {
+                originalPrice = $("#custom").data('amount');
+                buyCount = $("#custom").data('count');
+            }
+            if (buyCount <= 0 || originalPrice <= 0) {
+                toast('请选择或输入订购的短信数量');
+                flag = true;
+                return;
+            }
+            var shopId = $("#shopperId").val();
+            var userId = $("#userId").val();
+            $.ajax({
+                url: path + "smsH5Pay/confirmSmsOrder.htm",
+                data: {
+                    "shopId": shopId,
+                    "payModel": payModel,
+                    "originalPrice": originalPrice,
+                    "buyCount": buyCount,
+                    "userId": userId
+                },
+                dataType: "json",
+                type: "post",
+                success: function (result) {
+                    //app支付
+                    if (payModel == 3) {
+                        scanUserAlipayCode(result.orderNum, result.originalPrice, result.buyCount)
+                    } else {
+                        //其他浏览器扫码
+                        if (payModel > 3) {
+                            if (payModel == 4) {
+                                var div = document.getElementById('pay');
+                                div.innerHTML = result.url;
+                                document.forms[0].submit();
+                            }
+                            else {
+                                window.location.href = result.url;
+                            }
+                        }
+                        //支付宝、微信扫码
+                        else {
+                            window.location.href = result.url;
+                        }
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
