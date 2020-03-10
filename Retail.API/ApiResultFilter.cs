@@ -21,15 +21,15 @@ namespace Retail.API
                 ObjectResult result = actionExecutedContext.Result as ObjectResult;
                 if (result != null)
                 {
-                    ObjectResult objectResult = new ObjectResult(null);
+                    var objectResult = new ObjectResult(null);
                     if (result.StatusCode == 200)
                     {
-                        objectResult = new ObjectResult(Result<object>.Success(result.Value));
+                        objectResult = new ObjectResult(Result<object>.ToSuccess(result.Value));
                     }
                     else
                     {
                         var r = result.Value as ProblemDetails;
-                        objectResult = new ObjectResult(Result<object>.Fail(r.Detail));
+                        objectResult = new ObjectResult(Result<object>.ToFail(r.Detail));
                     }
                     // 重新封装回传格式
                     actionExecutedContext.Result = objectResult;

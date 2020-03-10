@@ -4,3 +4,4 @@ packages
 *.user
 /.vs
 
+/Retail.API/logs

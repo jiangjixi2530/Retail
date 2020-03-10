@@ -15,7 +15,7 @@ namespace Retail.API.Areas.Upload.Controllers
 {
     [Route("upload/")]
     [ApiController]
-    public class CustomInfoController : ControllerBase
+    public class CustomUploadController : ControllerBase
     {
         /// <summary>
         /// 更新客户信息

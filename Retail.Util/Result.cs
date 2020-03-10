@@ -11,7 +11,7 @@ namespace Retail.Util
         /// <summary>
         /// 接口执行是否成功
         /// </summary>
-        public bool IsSuccess { get; set; }
+        public bool Success { get; set; }
         /// <summary>
         /// 接口执行结果
         /// </summary>
@@ -25,13 +25,13 @@ namespace Retail.Util
         /// </summary>
         public object Extend { get; set; }
 
-        public static Result<T> Success(T t, string msg = "成功")
+        public static Result<T> ToSuccess(T t, string msg = "成功")
         {
-            return new Result<T>() { IsSuccess = true, Data = t, Msg = msg };
+            return new Result<T>() { Success = true, Data = t, Msg = msg };
         }
-        public static Result<T> Fail(string msg = "", object extend = null)
+        public static Result<T> ToFail(string msg = "", object extend = null)
         {
-            return new Result<T>() { IsSuccess = false, Msg = msg, Extend = extend };
+            return new Result<T>() { Success = false, Msg = msg, Extend = extend };
         }
     }
 }
