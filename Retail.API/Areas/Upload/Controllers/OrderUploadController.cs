@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Retail.DAL.Models;
 using Retail.DAL.Repository;
+using Retail.Util;
 using Retail.Util.Extend;
 
 namespace Retail.API.Areas.Upload.Controllers
@@ -35,19 +37,46 @@ namespace Retail.API.Areas.Upload.Controllers
             {
                 orderModel = new retail_order();
             }
-            JObjectToModel<retail_order>.JObjectTansToModel(orderObj, orderModel);
-            //if (orderModel.Id == 0)
-            //{
-            //    orderModel.OrderNum = orderNum;
-            //    orderModel.OrderDate = orderObj["OrderDate"].ToString().ConvertStringToDateTime();
-            //}
-            //orderModel.CustomId = orderObj["CustomId"].ToString().ToInt();
-            //orderModel.CustomName = orderObj["CustomName"].ToString();
-            //orderModel.Relation = orderObj["Relation"].ToString();
-            //orderModel.RelationPhone = orderObj["RelationPhone"].ToString();
-            //orderModel.Address = orderObj["Address"].ToString();
-            //orderModel.PayMentType = orderObj["PayMentType"].ToString().ToInt();
-            return Ok(true);
+            orderModel = orderObj.JObjectTransToModel<retail_order>();
+            JArray jArray = (JArray)JsonConvert.DeserializeObject(orderObj["OrderDetail"].ObjToString());
+            List<retail_order_item> orderDetails = new List<retail_order_item>();
+            foreach (var item in jArray)
+            {
+                retail_order_item orderDetail = new retail_order_item();
+                orderDetail = item.JTokenTransToModel<retail_order_item>();
+                orderDetails.Add(orderDetail);
+            }
+            db.BeginTran();
+            try
+            {
+                if (orderModel.Id > 0)
+                {
+                    db.Update<retail_order>(x => new retail_order() { CustomId = orderModel.CustomId, CustomName = orderModel.CustomName, Relation = orderModel.Relation, RelationPhone = orderModel.RelationPhone, Address = orderModel.Address, PayMentType = orderModel.PayMentType, OriginalPrice = orderModel.OriginalPrice, OrderDiscount = orderModel.OrderDiscount, OrderDiscountAmount = orderModel.OrderDiscountAmount, ReceivePrice = orderModel.ReceivePrice, PayStatus = orderModel.PayStatus, PayDate = orderModel.PayDate, OrderStatus = orderModel.OrderStatus, Remark = orderModel.Remark, SaleMan = orderModel.SaleMan }, q => q.Id == orderModel.Id, false);
+                }
+                else
+                {
+                    orderModel.Id = db.AddReturnId(orderModel);
+                }
+                foreach (var item in orderDetails)
+                {
+                    var existsItem = db.Single<retail_order_item>(x => x.OrderNum == item.OrderNum && x.ItemGuid == item.ItemGuid);
+                    if (existsItem != null && existsItem.Id > 0)
+                    {
+                        db.Update<retail_order_item>(x => new retail_order_item() { ProductId = item.ProductId, ProductName = item.ProductName, ProductUnitName = item.ProductUnitName, SizeId = item.SizeId, SizeName = item.SizeName, IsSingleSize = item.IsSingleSize, OriginalPrice = item.OriginalPrice, ItemDiscount = item.ItemDiscount, ItemDiscountPrice = item.ItemDiscountPrice, PromotionPrice = item.PromotionPrice, BuyPrice = item.BuyPrice, BuyCount = item.BuyCount, PackUnitName = item.PackUnitName, ConversionValue = item.ConversionValue, ProductDescription = item.ProductDescription, Remark = item.Remark }, q => q.Id == existsItem.Id, false);
+                    }
+                    else
+                    {
+                        item.CreateDate = AppSetting.TimeNow;
+                        item.Id = db.AddReturnId(item);
+                    }
+                }
+                return Ok("订单上传成功");
+            }
+            catch (SqlSugar.SqlSugarException ex)
+            {
+                return Problem(ex.Message);
+            }
+
         }
     }
 }

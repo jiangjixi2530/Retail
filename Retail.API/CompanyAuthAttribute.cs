@@ -8,6 +8,7 @@ using Retail.Util.Extend;
 using Retail.DAL.Models;
 using Retail.DAL.Repository;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Retail.Util;
 
 namespace Retail.API
 {
@@ -18,7 +19,7 @@ namespace Retail.API
             if (context == null)
                 return;
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            if(controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true)
+            if (controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true)
           .Any(a => a.GetType().Equals(typeof(NoCompanyRequiredAttribute))))
             {
                 return;
@@ -30,9 +31,17 @@ namespace Retail.API
                 var isValid = companyId > 0;
                 if (isValid)
                 {
-                    SugarHandler db = new SugarHandler();
-                    var company = db.Single<retail_company>(x => x.Id == companyId);
-                    isValid = company != null && company.ParentId == companyPid;
+                    try
+                    {
+                        SugarHandler db = new SugarHandler();
+                        var company = db.Single<retail_company>(x => x.Id == companyId);
+                        isValid = company != null && company.ParentId == companyPid;
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.WriteErrorLog(LogType.BASE, ex);
+                        isValid = false;
+                    }
                 }
                 if (!isValid)
                 {

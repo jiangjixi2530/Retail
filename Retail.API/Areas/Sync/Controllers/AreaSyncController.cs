@@ -8,9 +8,9 @@ namespace Retail.API.Areas.Sync.Controllers
 {
     [Route("sync/")]
     [ApiController]
-    public class AreaController : ControllerBase
+    public class AreaSyncController : ControllerBase
     {
-        [HttpGet("GetProvince.htm")]
+        [HttpPost("GetProvince.htm")]
         public IActionResult GetProvince()
         {
             try
@@ -24,7 +24,7 @@ namespace Retail.API.Areas.Sync.Controllers
             }
         }
 
-        [HttpGet("GetCity.htm")]
+        [HttpPost("GetCity.htm")]
         public IActionResult GetCity()
         {
             try
@@ -37,13 +37,13 @@ namespace Retail.API.Areas.Sync.Controllers
                 return Problem(ex.Message);
             }
         }
-        [HttpGet("GetArea.htm")]
+        [HttpPost("GetArea.htm")]
         public IActionResult GetArea()
         {
             try
             {
                 SugarHandler db = new SugarHandler();
-                return Ok(db.Queryable<retail_area>().OrderBy(x => x.CityId).ToList());
+                return new JsonResult(db.Queryable<retail_area>().OrderBy(x => x.CityId).ToList());
             }
             catch (SqlSugar.SqlSugarException ex)
             {

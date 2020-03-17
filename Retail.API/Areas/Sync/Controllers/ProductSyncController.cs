@@ -15,7 +15,7 @@ namespace Retail.API.Areas.Sync.Controllers
     [ApiController]
     public class ProductSyncController : ControllerBase
     {
-        [HttpGet("getCategoryInfo.htm")]
+        [HttpPost("getCategoryInfo.htm")]
         public IActionResult GetCategoryInfo()
         {
             var companyId = Request.Headers["CompanyId"].ToString().ToInt();
@@ -31,7 +31,7 @@ namespace Retail.API.Areas.Sync.Controllers
             }
         }
 
-        [HttpGet("getProductInfo.htm")]
+        [HttpPost("getProductInfo.htm")]
         public IActionResult GetProductInfo()
         {
             var companyId = Request.Headers["CompanyId"].ToString().ToInt();
@@ -47,7 +47,7 @@ namespace Retail.API.Areas.Sync.Controllers
             }
         }
 
-        [HttpGet("getProductSizeInfo.htm")]
+        [HttpPost("getProductSizeInfo.htm")]
         public IActionResult GetProductSizeInfo()
         {
             var companyId = Request.Headers["CompanyId"].ToString().ToInt();

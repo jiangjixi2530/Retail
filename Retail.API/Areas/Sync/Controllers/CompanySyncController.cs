@@ -13,14 +13,15 @@ namespace Retail.API.Areas.Sync.Controllers
 {
     [Route("sync/")]
     [ApiController]
-    public class CompanyController : ControllerBase
+    public class CompanySyncController : ControllerBase
     {
         [NoCompanyRequired]
-        [HttpGet("GetCheckCompanyCode.htm")]
-        public IActionResult GetCompanyInfo(string code)
+        [HttpPost("GetCheckCompanyCode.htm")]
+        public IActionResult GetCompanyInfo()
         {
             try
             {
+                string code = Request.Form["code"].ToString();
                 if (string.IsNullOrEmpty(code))
                 {
                     return Problem("参数有误");
@@ -32,11 +33,11 @@ namespace Retail.API.Areas.Sync.Controllers
                     return Problem("编码有误");
                 }
                 var machines = db.GetList<retail_machine>(x => x.CompanyId == company.Id);
-                var users = db.GetList<retail_user>(x => x.CompanyId == company.Id);
+                var employees = db.GetList<retail_employee>(x => x.CompanyId == company.Id);
                 Dictionary<string, object> dict = new Dictionary<string, object>();
                 dict["Company"] = company;
                 dict["Machines"] = machines;
-                dict["Users"] = users;
+                dict["Employees"] = employees;
                 return Ok(dict);
             }
             catch (SqlSugar.SqlSugarException ex)

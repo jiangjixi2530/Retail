@@ -6,12 +6,12 @@ using System.Threading;
 namespace Retail.Util
 {
     [Serializable]
-    public class Result<T>
+    public class RetailResult<T>
     {
         /// <summary>
         /// 接口执行是否成功
         /// </summary>
-        public bool Success { get; set; }
+        public bool IsSuccess { get; set; }
         /// <summary>
         /// 接口执行结果
         /// </summary>
@@ -25,13 +25,13 @@ namespace Retail.Util
         /// </summary>
         public object Extend { get; set; }
 
-        public static Result<T> ToSuccess(T t, string msg = "成功")
+        public static RetailResult<T> ToSuccess(T t, string msg = "成功")
         {
-            return new Result<T>() { Success = true, Data = t, Msg = msg };
+            return new RetailResult<T>() { IsSuccess = true, Data = t, Msg = msg };
         }
-        public static Result<T> ToFail(string msg = "", object extend = null)
+        public static RetailResult<T> ToFail(string msg = "", object extend = null)
         {
-            return new Result<T>() { Success = false, Msg = msg, Extend = extend };
+            return new RetailResult<T>() { IsSuccess = false, Msg = msg, Extend = extend };
         }
     }
 }

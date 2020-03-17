@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CA1031: 不捕获常规异常类型
+dotnet_diagnostic.CA1031.severity = none

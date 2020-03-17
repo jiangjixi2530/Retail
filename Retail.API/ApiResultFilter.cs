@@ -17,20 +17,31 @@ namespace Retail.API
         public override void OnActionExecuted(ActionExecutedContext actionExecutedContext)
         {
             if (actionExecutedContext != null && actionExecutedContext.Exception == null)
-            {   //执行成功 取得由 API 返回的资料
-                ObjectResult result = actionExecutedContext.Result as ObjectResult;
-                if (result != null)
+            {
+                ObjectResult objectResult = null;
+                if (actionExecutedContext.Result.GetType().Equals(typeof(JsonResult)))
                 {
-                    var objectResult = new ObjectResult(null);
-                    if (result.StatusCode == 200)
+                    objectResult = new ObjectResult(RetailResult<object>.ToSuccess((actionExecutedContext.Result as JsonResult).Value));
+                }
+                else
+                {
+                    //执行成功 取得由 API 返回的资料
+                    ObjectResult result = actionExecutedContext.Result as ObjectResult;
+                    if (result != null)
                     {
-                        objectResult = new ObjectResult(Result<object>.ToSuccess(result.Value));
+                        if (result.StatusCode == 200)
+                        {
+                            objectResult = new ObjectResult(RetailResult<object>.ToSuccess(result.Value));
+                        }
+                        else
+                        {
+                            var r = result.Value as ProblemDetails;
+                            objectResult = new ObjectResult(RetailResult<object>.ToFail(r.Detail));
+                        }
                     }
-                    else
-                    {
-                        var r = result.Value as ProblemDetails;
-                        objectResult = new ObjectResult(Result<object>.ToFail(r.Detail));
-                    }
+                }
+                if (objectResult != null)
+                {
                     // 重新封装回传格式
                     actionExecutedContext.Result = objectResult;
                 }

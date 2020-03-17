@@ -13,13 +13,13 @@ namespace Retail.API.Areas.Sync.Controllers
 {
     [Route("sync/")]
     [ApiController]
-    public class BasicArchivesController : ControllerBase
+    public class BasicSyncController : ControllerBase
     {
         /// <summary>
         /// 同步客户信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet("getCustom.htm")]
+        [HttpPost("getCustom.htm")]
         public IActionResult GetCustom()
         {
             var companyId = Request.Headers["CompanyId"].ObjToInt();
@@ -39,7 +39,7 @@ namespace Retail.API.Areas.Sync.Controllers
         /// 同步单位信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet("getUnit.htm")]
+        [HttpGet("HttpPost.htm")]
         public IActionResult GetUnit()
         {
             var companyId = Request.Headers["CompanyId"].ObjToInt();
